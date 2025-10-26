@@ -1,0 +1,67 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+  "name": "Ubuntu",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/base:noble",
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {},
+    "ghcr.io/devcontainers-extra/features/nmap-apt-get:1": {},
+    "ghcr.io/devcontainers/features/rust:1": {
+      // pick a specific version for reproducibility
+      "version": "1.90.0",
+      // minimal profile includes rustc, cargo, rust-std
+      "profile": "minimal",
+      // optional: extra components you might want
+      "components": ["clippy", "rustfmt"]
+    },
+    "ghcr.io/roul/devcontainer-features/mise": {}
+  },
+  "mounts": [
+    "source=cargo-cache,target=/home/vscode/.cargo,type=volume",
+    "source=dot-local,target=/home/vscode/.local,type=volume",
+    "source=apt-cache,target=/var/cache/apt,type=volume",
+    "source=apt-lib,target=/var/lib/apt,type=volume"
+  ],
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}",
+    "MISE_LOG_LEVEL": "info",
+    "MISE_YES": "1"
+  },
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.local /home/vscode/.cargo /workspaces 2>/dev/null || true; /bin/bash .devcontainer/postCreateCommand.sh",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "files.watcherExclude": {
+          "**/.git/objects/**": true,
+          "**/.git/subtree-cache/**": true,
+          "**/node_modules/*/**": true,
+          "**/target/**": true,
+          "**/.cargo/**": true
+        },
+        "files.autoSave": "afterDelay",
+        "explorer.autoReveal": true,
+        "files.enableTrash": false,
+        "terminal.integrated.fontFamily": "FiraCode Nerd Font",
+        "terminal.integrated.fontLigatures": true
+      },
+      "extensions": [
+        "redhat.vscode-yaml",
+        "irongeek.vscode-env",
+        "timonwong.shellcheck",
+        "esbenp.prettier-vscode",
+        "blueglassblock.better-json5",
+        "signageos.signageos-vscode-sops"
+      ]
+    }
+  },
+  // Wait for postCreateCommand to finish
+  "waitFor": "postCreateCommand"
+  // Configure tool-specific properties.
+  // "customizations": {},
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+}

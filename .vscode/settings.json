@@ -1,0 +1,10 @@
+{
+    "editor.bracketPairColorization.enabled": true,
+    "files.associations": {
+        "**/*.json5": "json5"
+    },
+    "yaml.schemaStore.enable": true,
+    "yaml.schemas": {
+        "kubernetes": "./kubernetes/**/*.yaml"
+    }
+}

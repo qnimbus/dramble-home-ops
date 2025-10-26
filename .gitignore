@@ -1,0 +1,21 @@
+# Images
+*.iso
+
+# Secrets
+talsecret.yaml
+
+# Talos
+clusterconfig/
+talosconfig
+
+# Kubernetes
+kubeconfig
+
+# Misc.
+.backup/
+.private/
+.task/
+.venv/
+.DS_Store
+Thumbs.db
+.mise.trust

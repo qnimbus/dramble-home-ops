@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://schemas.clustrs.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-secrets
+  namespace: external-secrets
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: external-secrets
+    namespace: flux-system
+  interval: 1h
+  valuesFrom:
+    - kind: ConfigMap
+      name: external-secrets-helm-values
+      valuesKey: helmvalues.yaml

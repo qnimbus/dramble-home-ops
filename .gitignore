@@ -1,0 +1,36 @@
+# Images
+*.iso
+
+# Secrets
+talsecret.yaml
+*.pub
+*.key
+*.decrypted~*.yaml
+/age.key
+/cloudflare-tunnel.json
+/github-deploy.key
+/github-deploy.key.pub
+/github-push-token.txt
+
+# Talos
+clusterconfig/
+talosconfig
+
+# Kubernetes
+kubeconfig
+
+# Template config files
+/cluster.yaml
+/nodes.yaml
+
+# Kubernetes
+kubeconfig
+
+# Misc.
+.backup/
+.private/
+.task/
+.venv/
+.DS_Store
+Thumbs.db
+.mise.trust

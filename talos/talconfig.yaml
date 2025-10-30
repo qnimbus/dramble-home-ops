@@ -1,0 +1,104 @@
+---
+clusterName: kubernetes
+
+talosVersion: "${talosVersion}"
+kubernetesVersion: "${kubernetesVersion}"
+
+endpoint: https://10.60.0.100:6443
+additionalApiServerCertSans: &sans
+  - "127.0.0.1"
+  - "10.60.0.100"
+additionalMachineCertSans: *sans
+
+clusterPodNets: ["10.42.0.0/16"]
+clusterSvcNets: ["10.43.0.0/16"]
+
+# Disable built-in CNI to use Cilium
+cniConfig:
+  name: none
+
+nodes:
+  - hostname: "amd64-node-1"
+    ipAddress: "10.60.0.101"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/e0b22154f4081cfac269b2a99c5dfe8f813408ab45b3394f5a7f7f944488f59f
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "dc:a6:32:8a:f7:ea"
+        dhcp: false
+        addresses:
+          - "10.60.0.101/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.60.0.1"
+        mtu: 1500
+        vip:
+          ip: "10.60.0.100"
+  - hostname: "amd64-node-2"
+    ipAddress: "10.60.0.102"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/e0b22154f4081cfac269b2a99c5dfe8f813408ab45b3394f5a7f7f944488f59f
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "dc:a6:32:8a:f7:9e"
+        dhcp: false
+        addresses:
+          - "10.60.0.102/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.60.0.1"
+        mtu: 1500
+  - hostname: "amd64-node-3"
+    ipAddress: "10.60.0.103"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/e0b22154f4081cfac269b2a99c5dfe8f813408ab45b3394f5a7f7f944488f59f
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "dc:a6:32:8a:f8:44"
+        dhcp: false
+        addresses:
+          - "10.60.0.103/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.60.0.1"
+        mtu: 1500
+  - hostname: "amd64-node-4"
+    ipAddress: "10.60.0.104"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: false
+    talosImageURL: factory.talos.dev/installer/e0b22154f4081cfac269b2a99c5dfe8f813408ab45b3394f5a7f7f944488f59f
+    controlPlane: false
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "dc:a6:32:8a:f7:d8"
+        dhcp: false
+        addresses:
+          - "10.60.0.104/24"
+        routes:
+          - network: "0.0.0.0/0"
+            gateway: "10.60.0.1"
+        mtu: 1500
+
+# Global patches
+patches:
+  - "@./patches/global/machine-files.yaml"
+  - "@./patches/global/machine-kubelet.yaml"
+  - "@./patches/global/machine-network.yaml"
+  - "@./patches/global/machine-sysctls.yaml"
+  - "@./patches/global/machine-time.yaml"
+
+# Controller patches
+controlPlane:
+  patches:
+    - "@./patches/controller/cluster.yaml"
+

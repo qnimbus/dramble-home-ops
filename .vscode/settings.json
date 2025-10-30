@@ -1,0 +1,13 @@
+{
+    "editor.bracketPairColorization.enabled": true,
+    "files.associations": {
+        "**/*.json5": "json5"
+    },
+    "yaml.schemaStore.enable": true,
+    "yaml.schemas": {
+        "kubernetes": "./kubernetes/**/*.yaml",
+        "https://www.schemastore.org/yamllint.json": "file:///workspaces/dramble-home-ops/cluster.yaml"
+    },
+    "sops.binPath": "/home/vscode/.local/share/mise/installs/aqua-getsops-sops/3.11.0/sops",
+    "sops.defaults.ageKeyFile": "/workspaces/dramble-home-ops/age.key"
+}

@@ -5,9 +5,14 @@ metadata:
   name: onepassword-connect
   namespace: external-secrets
 spec:
-  chartRef:
-    kind: OCIRepository
-    name: onepassword-connect
+  chart:
+    spec:
+      chart: connect
+      version: ">=1.15.0"
+      sourceRef:
+        kind: HelmRepository
+        name: onepassword-connect
+      interval: 6h
   interval: 1h
   driftDetection:
     mode: enabled

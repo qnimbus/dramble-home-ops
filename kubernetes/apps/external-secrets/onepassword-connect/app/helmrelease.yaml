@@ -40,5 +40,23 @@ spec:
           memory: 128Mi
         limits:
           memory: 256Mi
+      # Security contexts for restricted pod security
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+        seccompProfile:
+          type: RuntimeDefault
+      containerSecurityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: false
+        runAsNonRoot: true
+        runAsUser: 999
+        capabilities:
+          drop:
+            - ALL
+        seccompProfile:
+          type: RuntimeDefault
     operator:
       create: false
